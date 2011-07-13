@@ -1,10 +1,10 @@
 package ru.fooza.tools.connectivityanalyzer.server.launchers;
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
-import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StatSendMessage;
-import ru.fooza.tools.connectivityanalyzer.server.StatisticsServer.IOmodule;
-import ru.fooza.tools.connectivityanalyzer.server.StatisticsServer.Processing;
-import ru.fooza.tools.connectivityanalyzer.server.StatisticsServer.Storage;
+import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageRecordMessage;
+import ru.fooza.tools.connectivityanalyzer.server.statistics.IOmodule;
+import ru.fooza.tools.connectivityanalyzer.server.statistics.Processing;
+import ru.fooza.tools.connectivityanalyzer.server.statistics.Storage;
 
 import java.net.InetAddress;
 import java.util.LinkedList;
@@ -35,7 +35,7 @@ public class ServerFinal {
             io.start();
             Processing processing = new Processing(inboundQueue,outboundQueue);
             Storage storageModule = new Storage(outboundQueue);
-            processing.addHandler(StatSendMessage.class,storageModule.getRequestQueue());
+            processing.addHandler(StorageRecordMessage.class,storageModule.getRequestQueue());
             storageModule.start();
             processing.start();
 

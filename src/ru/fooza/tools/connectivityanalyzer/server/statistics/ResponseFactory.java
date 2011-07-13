@@ -1,4 +1,4 @@
-package ru.fooza.tools.connectivityanalyzer.server.StatisticsServer;
+package ru.fooza.tools.connectivityanalyzer.server.statistics;
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.CommonErrorMessage;
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
@@ -12,7 +12,7 @@ import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageAckMess
  * To change this template use File | Settings | File Templates.
  */
 
-public class AnswerFabric {
+public class ResponseFactory {
     public static Message getError(Message request,String cause){
         return new CommonErrorMessage(request.getClientId(),cause);
     }

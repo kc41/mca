@@ -11,8 +11,8 @@ import java.sql.Timestamp;
  * Time: 22:43
  * To change this template use File | Settings | File Templates.
  */
-public class StatSendMessage extends StorageMessages implements Serializable{
-    public StatSendMessage(Timestamp timestamp, int packetSize, long roundTripDelay, String operator, double latitude, double longitude) {
+public class StorageRecordMessage extends StorageMessages implements Serializable{
+    public StorageRecordMessage(Timestamp timestamp, int packetSize, long roundTripDelay, String operator, double latitude, double longitude) {
         this.timestamp = timestamp;
         this.packetSize = packetSize;
         this.roundTripDelay = roundTripDelay;

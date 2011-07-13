@@ -1,4 +1,4 @@
-package ru.fooza.tools.connectivityanalyzer.server.StatisticsServer;
+package ru.fooza.tools.connectivityanalyzer.server.statistics;
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
 

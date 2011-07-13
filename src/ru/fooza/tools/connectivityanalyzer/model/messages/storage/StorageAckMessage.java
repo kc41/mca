@@ -1,7 +1,6 @@
 package ru.fooza.tools.connectivityanalyzer.model.messages.storage;
 
 import ru.fooza.tools.connectivityanalyzer.model.ClientId;
-import ru.fooza.tools.connectivityanalyzer.server.StatisticsServer.Storage;
 
 import java.io.Serializable;
 

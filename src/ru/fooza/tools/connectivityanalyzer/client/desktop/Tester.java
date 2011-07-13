@@ -2,9 +2,8 @@ package ru.fooza.tools.connectivityanalyzer.client.desktop;
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.CommonErrorMessage;
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
-import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StatSendMessage;
+import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageRecordMessage;
 import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageAckMessage;
-import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageMessages;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -39,14 +38,12 @@ public class Tester {
     }
     public String test(){
         try {
-            oos.writeObject(new StatSendMessage(new Timestamp(System.currentTimeMillis()),1000,30,"MTS",2435.534,2345.2345));
+            oos.writeObject(new StorageRecordMessage(new Timestamp(System.currentTimeMillis()),1000,30,"MTS",2435.534,2345.2345));
             Object temp = ois.readObject();
-            System.out.println("readed");
-
             if (CommonErrorMessage.class.isInstance(temp)){
                 return ((CommonErrorMessage)temp).toString();
             }else if(StorageAckMessage.class.isInstance(temp)){
-                return ("Успех!!!");
+                return ("Statistics successfully recorded");
 
             }else return temp.getClass().toString();
         }catch (Exception e){

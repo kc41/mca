@@ -1,7 +1,7 @@
 package ru.fooza.tools.connectivityanalyzer.server.launchers;
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
-import ru.fooza.tools.connectivityanalyzer.server.StatisticsServer.IOmodule;
+import ru.fooza.tools.connectivityanalyzer.server.statistics.IOmodule;
 
 import java.lang.Exception;import java.lang.String;import java.lang.System;import java.net.InetAddress;
 import java.util.LinkedList;

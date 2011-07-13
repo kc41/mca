@@ -1,9 +1,8 @@
-package ru.fooza.tools.connectivityanalyzer.server.StatisticsServer;
+package ru.fooza.tools.connectivityanalyzer.server.statistics;
 
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
 import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StatSendMessage;
-import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageAckMessage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -95,7 +94,7 @@ public class Storage extends Thread implements MessageHandler{
     protected void store(StatSendMessage message) throws SQLException{
         try {
             Statement st = db.createStatement();
-            st.executeUpdate( getSqlRequest(message));
+            st.executeUpdate(getSqlRequest(message));
         }catch (SQLException e){
             throw e;
         }
@@ -152,7 +151,7 @@ public class Storage extends Thread implements MessageHandler{
                     System.out.println("Storage: data stored");
                 }catch (SQLException e){
                     synchronized (outputQueue){
-                        outputQueue.add(AnswerFabric.getStorageAckMessage(currentMessage));
+                        outputQueue.add(AnswerFabric.getError(currentMessage, "Database temporary down"));
                         outputQueue.notifyAll();
                         System.out.println("Storage: data rejected; cause = "+e.getMessage());
                     }
