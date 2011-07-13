@@ -1,0 +1,3 @@
+DROP TABLE latency.rawresults;
+CREATE TABLE latency.rawresults (time TIMESTAMP, lat INTEGER);
+ALTER TABLE latency.rawresults OWNER TO kchupin;

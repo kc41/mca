@@ -1,0 +1,4 @@
+DROP TABLE latency.delays;
+CREATE TABLE latency.delays (time TIMESTAMP, packetSize INTEGER, delay INTEGER, operator varchar(255),
+lat FLOAT, long FLOAT);
+ALTER TABLE latency.delays OWNER TO kchupin;
