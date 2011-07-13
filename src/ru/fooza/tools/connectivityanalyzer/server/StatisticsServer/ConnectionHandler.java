@@ -47,16 +47,16 @@ public class ConnectionHandler extends Thread{
                     }
                 }
                 else {
-                    System.out.println("Bad object recieved");
+                    System.out.println("IO: Bad object recieved");
                     continue;
                 }
             } catch (EOFException e){
                 registrar.unregUser(socket);
-                System.out.println("Client "+myClientId+" gone offline");
+                System.out.println("IO: Client "+myClientId+" gone offline");
                 return;
 
             } catch (IOException e) {
-                System.out.println("Network error while message recieving");
+                System.out.println("IO: Network error while message recieving");
                 if (errorCounter <= maxErrors){
                     errorCounter++;
                 }
@@ -66,7 +66,7 @@ public class ConnectionHandler extends Thread{
                 }
                 continue;
             } catch (ClassNotFoundException e) {
-                System.out.println("Very bad object recieved");
+                System.out.println("IO: Very bad object recieved");
                 if (errorCounter <= maxErrors){
                     errorCounter++;
                 }

@@ -43,11 +43,11 @@ public class IOmodule extends Thread{
         while (true){
             try {
                 tempClientSocket = serverSocket.accept();
-                System.out.println("Connection accepted from "+tempClientSocket.toString());
+                System.out.println("IO: Connection accepted from "+tempClientSocket.toString());
                 handler = new ConnectionHandler(tempClientSocket,inboundQueue,registrar,maxErrorsPerSession);
                 handler.start();
             } catch (IOException e) {
-                System.out.println("Error in connection proccess");
+                System.out.println("IO: Error in connection proccess");
             }
         }
 
