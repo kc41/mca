@@ -95,7 +95,7 @@ public class Storage extends Thread implements MessageHandler{
     protected void store(StatSendMessage message) throws SQLException{
         try {
             Statement st = db.createStatement();
-            st.executeQuery( getSqlRequest(message));
+            st.executeUpdate( getSqlRequest(message));
         }catch (SQLException e){
             throw e;
         }
