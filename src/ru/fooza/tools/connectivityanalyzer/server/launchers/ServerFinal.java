@@ -18,8 +18,7 @@ import java.util.Queue;
  * To change this template use File | Settings | File Templates.
  */
 
-//TODO add registration, unified processing, XML
-//TODO isolate and prioritize echoserver
+//TODO add XML
 
 public class ServerFinal {
     public static void main(String[] args){

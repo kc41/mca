@@ -112,8 +112,10 @@ public class Storage extends Thread implements MessageHandler{
     }
 
     protected Queue<Message> requestQueue;
+
     protected Queue<Message> writeQueue;
     protected Queue<Message> readQueue;
+
     protected Queue<Message> outputQueue;
 
     protected int cacheSize;
@@ -124,7 +126,6 @@ public class Storage extends Thread implements MessageHandler{
     //
     private class WriteDatabaseThread extends Thread{
         private WriteDatabaseThread() {
-            cache = new LinkedList<Message>();
         }
 
         @Override
@@ -158,10 +159,8 @@ public class Storage extends Thread implements MessageHandler{
                 }
             }
         }
-        protected Queue<Message> cache;
     }
 
-    //TODO Add reading queue;
 
 
 
