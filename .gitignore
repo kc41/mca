@@ -1,0 +1,5 @@
+out/
+*.iml
+*.DS_Store
+local.properties
+proguard.cfg
