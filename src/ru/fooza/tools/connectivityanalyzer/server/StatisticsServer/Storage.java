@@ -65,7 +65,7 @@ public class Storage extends Thread implements MessageHandler{
                         writeQueue.notifyAll();
                     }
                 }else {
-                    System.out.println("Wrong message sent to storage");
+                    System.out.println("Storage: Wrong message sent to storage");
                 }
             }
         }
@@ -137,7 +137,7 @@ public class Storage extends Thread implements MessageHandler{
                 }
                 if (cache.size() >= cacheSize){
                     //Calling outer class method to write to DB
-                    System.out.println("Writing to DB");
+                    System.out.println("Storage: Writing to DB");
                     store(cache);
                     synchronized (outputQueue){
                         outputQueue.add(new StorageAckMessage());

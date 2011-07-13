@@ -36,9 +36,8 @@ public class OutputModule extends Thread{
                     while (!queue.isEmpty()){
                         cache.add(queue.poll());
                     }
-                    System.out.println("Waiting for messages");
                     queue.wait();
-                    System.out.println("Processing");
+                    System.out.println("IO: Sending response");
                     while (!queue.isEmpty()){
                         cache.add(queue.poll());
                     }
