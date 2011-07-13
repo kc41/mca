@@ -47,7 +47,7 @@ public class IOmodule extends Thread{
                 handler = new ConnectionHandler(tempClientSocket,inboundQueue,registrar,maxErrorsPerSession);
                 handler.start();
             } catch (IOException e) {
-                System.out.println("IO: Error in connection proccess");
+                System.out.println("IO: Error in connection process");
             }
         }
 
