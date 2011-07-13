@@ -37,7 +37,6 @@ public class OutputModule extends Thread{
                         cache.add(queue.poll());
                     }
                     queue.wait();
-                    System.out.println("IO: Sending response");
                     while (!queue.isEmpty()){
                         cache.add(queue.poll());
                     }
@@ -53,6 +52,7 @@ public class OutputModule extends Thread{
                 //TODO Analyze errors
                 tempMessage = cache.poll();
                 oos = registrar.getObjectOutputStream(tempMessage.getClientId());
+                System.out.println("IO: Sending response to "+tempMessage.getClientId().getId());
                 try {
                     //TODO Add failure notifications
                     if(oos != null){

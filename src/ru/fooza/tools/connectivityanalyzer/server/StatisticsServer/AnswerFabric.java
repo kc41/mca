@@ -2,6 +2,7 @@ package ru.fooza.tools.connectivityanalyzer.server.StatisticsServer;
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.CommonErrorMessage;
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
+import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageAckMessage;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +16,10 @@ public class AnswerFabric {
     public static Message getError(Message request,String cause){
         return new CommonErrorMessage(request.getClientId(),cause);
     }
+    public static Message getStorageAckMessage(Message request){
+        return new StorageAckMessage(request.getClientId());
+    }
+
 
 
 }

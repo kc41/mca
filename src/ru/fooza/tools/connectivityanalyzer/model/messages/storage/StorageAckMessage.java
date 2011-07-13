@@ -1,5 +1,6 @@
 package ru.fooza.tools.connectivityanalyzer.model.messages.storage;
 
+import ru.fooza.tools.connectivityanalyzer.model.ClientId;
 import ru.fooza.tools.connectivityanalyzer.server.StatisticsServer.Storage;
 
 import java.io.Serializable;
@@ -12,5 +13,8 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 public class StorageAckMessage extends StorageMessages implements Serializable{
+    public StorageAckMessage (ClientId clientId){
+        this.clientId = clientId;
+    }
 
 }

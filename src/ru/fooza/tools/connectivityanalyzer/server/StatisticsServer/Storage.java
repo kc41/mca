@@ -92,6 +92,15 @@ public class Storage extends Thread implements MessageHandler{
         }
     }
 
+    protected void store(StatSendMessage message) throws SQLException{
+        try {
+            Statement st = db.createStatement();
+            st.executeQuery( getSqlRequest(message));
+        }catch (SQLException e){
+            throw e;
+        }
+    }
+
     //TODO Replace with ORM;
     protected String getSqlRequest(StatSendMessage message){
         String request;
@@ -121,6 +130,7 @@ public class Storage extends Thread implements MessageHandler{
 
         @Override
         public void run(){
+            Message currentMessage;
             while (true){
                 synchronized (writeQueue){
                     if (writeQueue.isEmpty()){
@@ -131,17 +141,20 @@ public class Storage extends Thread implements MessageHandler{
                             continue;
                         }
                     }
-                    while (writeQueue.size() != 0){
-                        cache.add(writeQueue.poll());
-                    }
+                    currentMessage = writeQueue.poll();
                 }
-                if (cache.size() >= cacheSize){
-                    //Calling outer class method to write to DB
-                    System.out.println("Storage: Writing to DB");
-                    store(cache);
+                try{
+                    store((StatSendMessage)currentMessage);
                     synchronized (outputQueue){
-                        outputQueue.add(new StorageAckMessage());
+                        outputQueue.add(AnswerFabric.getStorageAckMessage(currentMessage));
                         outputQueue.notifyAll();
+                    }
+                    System.out.println("Storage: data stored");
+                }catch (SQLException e){
+                    synchronized (outputQueue){
+                        outputQueue.add(AnswerFabric.getStorageAckMessage(currentMessage));
+                        outputQueue.notifyAll();
+                        System.out.println("Storage: data rejected; cause = "+e.getMessage());
                     }
                 }
             }

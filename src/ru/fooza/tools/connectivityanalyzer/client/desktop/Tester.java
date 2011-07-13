@@ -40,8 +40,8 @@ public class Tester {
     public String test(){
         try {
             oos.writeObject(new StatSendMessage(new Timestamp(System.currentTimeMillis()),1000,30,"MTS",2435.534,2345.2345));
-            ois = new ObjectInputStream(s.getInputStream());
             Object temp = ois.readObject();
+            System.out.println("readed");
 
             if (CommonErrorMessage.class.isInstance(temp)){
                 return ((CommonErrorMessage)temp).toString();
