@@ -55,7 +55,7 @@ public class Processing extends Thread{
                 if (currentMessage != null){
                     System.out.println("Processing: Service not defined");
                     synchronized (outboundQueue){
-                        outboundQueue.add(AnswerFabric.getError(currentMessage,"Requested service not available"));
+                        outboundQueue.add(ResponseFactory.getError(currentMessage, "Requested service not available"));
                         outboundQueue.notifyAll();
                     }
                 }

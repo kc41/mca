@@ -2,7 +2,7 @@ package ru.fooza.tools.connectivityanalyzer.server.statistics;
 
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
-import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StatSendMessage;
+import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageRecordMessage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -57,7 +57,7 @@ public class Storage extends Thread implements MessageHandler{
                 }
                 currentMessages = requestQueue.poll();
                 //TODO: Switch read/write requests;
-                if (StatSendMessage.class.isInstance(currentMessages)){
+                if (StorageRecordMessage.class.isInstance(currentMessages)){
                     synchronized (writeQueue){
                         System.out.println("Storage: Message sent to DB");
                         writeQueue.add(currentMessages);
@@ -77,7 +77,7 @@ public class Storage extends Thread implements MessageHandler{
                 Statement st = db.createStatement();
                 for (Message i : task){
                     try {
-                        st.executeUpdate( getSqlRequest( (StatSendMessage)i ) );
+                        st.executeUpdate( getSqlRequest( (StorageRecordMessage)i ) );
                     } catch (SQLException e) {
                         e.printStackTrace();  //TODO Add full error handling
                     }
@@ -91,7 +91,7 @@ public class Storage extends Thread implements MessageHandler{
         }
     }
 
-    protected void store(StatSendMessage message) throws SQLException{
+    protected void store(StorageRecordMessage message) throws SQLException{
         try {
             Statement st = db.createStatement();
             st.executeUpdate(getSqlRequest(message));
@@ -101,7 +101,7 @@ public class Storage extends Thread implements MessageHandler{
     }
 
     //TODO Replace with ORM;
-    protected String getSqlRequest(StatSendMessage message){
+    protected String getSqlRequest(StorageRecordMessage message){
         String request;
         request = "INSERT INTO latency.delays (time,packetSize,delay,operator,lat,long) VALUES ("+
                 "'"+message.getTimestamp().toString()+"',"+
@@ -143,15 +143,15 @@ public class Storage extends Thread implements MessageHandler{
                     currentMessage = writeQueue.poll();
                 }
                 try{
-                    store((StatSendMessage)currentMessage);
+                    store((StorageRecordMessage)currentMessage);
                     synchronized (outputQueue){
-                        outputQueue.add(AnswerFabric.getStorageAckMessage(currentMessage));
+                        outputQueue.add(ResponseFactory.getStorageAckMessage(currentMessage));
                         outputQueue.notifyAll();
                     }
                     System.out.println("Storage: data stored");
                 }catch (SQLException e){
                     synchronized (outputQueue){
-                        outputQueue.add(AnswerFabric.getError(currentMessage, "Database temporary down"));
+                        outputQueue.add(ResponseFactory.getError(currentMessage, "Database temporary down"));
                         outputQueue.notifyAll();
                         System.out.println("Storage: data rejected; cause = "+e.getMessage());
                     }
