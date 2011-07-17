@@ -5,7 +5,9 @@ import ru.fooza.tools.connectivityanalyzer.model.Measure;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,6 +32,19 @@ public class DelayMeasure {
         catch (SocketException e){
             ready = false;
         }
+    }
+
+    public Set<Measure> bulkTest(int num){
+        Set<Measure> result = new HashSet<Measure>();
+        for (int i = 0 ; i < num ; i++){
+            result.add(testDelay(i , 1024));
+            try{
+                Thread.sleep(1000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
     public Measure testDelay(int packetSize, int seqNo) {
