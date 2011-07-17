@@ -2,6 +2,7 @@ package ru.fooza.tools.connectivityanalyzer.server.launchers;
 
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
 import ru.fooza.tools.connectivityanalyzer.model.messages.storage.StorageRecordMessage;
+import ru.fooza.tools.connectivityanalyzer.server.EchoServer;
 import ru.fooza.tools.connectivityanalyzer.server.statistics.IOmodule;
 import ru.fooza.tools.connectivityanalyzer.server.statistics.Processing;
 import ru.fooza.tools.connectivityanalyzer.server.statistics.Storage;
@@ -30,6 +31,8 @@ public class ServerFinal {
         Queue<Message> inboundQueue = new LinkedList<Message>();
         Queue<Message> outboundQueue = new LinkedList<Message>();
         try{
+            EchoServer echoServer = new EchoServer(InetAddress.getByName(args[0]));
+            echoServer.start();
             IOmodule io = new IOmodule(InetAddress.getByName(args[0]),3333,inboundQueue,outboundQueue,10);
             io.start();
             Processing processing = new Processing(inboundQueue,outboundQueue);

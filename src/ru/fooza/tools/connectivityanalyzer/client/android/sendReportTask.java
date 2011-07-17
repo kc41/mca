@@ -1,7 +1,6 @@
 package ru.fooza.tools.connectivityanalyzer.client.android;
 
 import android.os.AsyncTask;
-import android.os.storage.OnObbStateChangeListener;
 import ru.fooza.tools.connectivityanalyzer.model.messages.Message;
 import ru.fooza.tools.connectivityanalyzer.model.messages.RegAckMessage;
 
@@ -21,8 +20,9 @@ import java.util.Queue;
  * To change this template use File | Settings | File Templates.
  */
 public class sendReportTask extends AsyncTask<Void,Void,Void>{
-    public sendReportTask(InetAddress serverAddress, int serverPort, Queue<Message> queue) {
+    public sendReportTask(InetAddress serverAddress, int serverPort, Queue<Message> queue, int errMax) {
         super();    //To change body of overridden methods use File | Settings | File Templates.
+        this.errMax = errMax;
         try{
             Object tempObject;
             socket = new Socket(serverAddress,serverPort);
@@ -49,11 +49,6 @@ public class sendReportTask extends AsyncTask<Void,Void,Void>{
         }
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-    }
 
     @Override
     protected Void doInBackground(Void... voids) {
@@ -65,9 +60,11 @@ public class sendReportTask extends AsyncTask<Void,Void,Void>{
             try{
                 if (!socket.isClosed())
                     oos.writeObject(tempMessage);
-                else
+                else{
+                    publishProgress();
                     cancel(false);
-                return null;
+                    return null;
+                }
             }
             catch (IOException e){
                 if (errCounter < errMax){
@@ -95,6 +92,11 @@ public class sendReportTask extends AsyncTask<Void,Void,Void>{
 
         }
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
     }
 
     private int errMax;

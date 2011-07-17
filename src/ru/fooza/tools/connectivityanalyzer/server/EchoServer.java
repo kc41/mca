@@ -1,5 +1,7 @@
 package ru.fooza.tools.connectivityanalyzer.server;
 
+import ru.fooza.tools.connectivityanalyzer.model.ByteOps;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -28,12 +30,17 @@ public class EchoServer extends Thread{
         }
 
         public void run() {
-            byte[] udpData = new byte[1024];
+            byte[] udpData = new byte[65000];
             DatagramPacket udpPacket= new DatagramPacket(udpData,udpData.length);
+            int currentSize;
+            int currentSeq;
             while (true){
                 try{
                     udpSocket.receive(udpPacket);
-                    System.out.println("Packet Recieved form "+udpPacket.getPort()+":"+udpPacket.getAddress().toString());
+                    currentSize = ByteOps.byteToInt(udpData,4);
+                    currentSeq = ByteOps.byteToInt(udpData,0);
+                    System.out.println("Packet Recieved form "+udpPacket.getPort()+":"+udpPacket.getAddress().toString()+
+                            "\n\t"+"size: "+currentSize+" Sequence no: "+currentSeq);
                 }
                 catch (IOException e){
                     //Cleaning buffer in case of recieving error
@@ -44,7 +51,7 @@ public class EchoServer extends Thread{
                 }
                 if (udpData[1]!=0){
                     try {
-                        udpSocket.send(new DatagramPacket(udpData,udpData.length,udpPacket.getAddress(),udpPacket.getPort()));
+                        udpSocket.send(new DatagramPacket(udpData,currentSize,udpPacket.getAddress(),udpPacket.getPort()));
                     } catch (IOException e) {
 
                     }
